@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            background-color: #28a745;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            header img {
+                width: 50px;
+                height: 50px;
+                margin-right: 15px; /* Khoảng cách giữa logo và tiêu đề */
+            }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+            button img {
+                width: 20px;
+                height: 20px;
+                margin-right: 10px; /* Khoảng cách giữa hình và chữ */
+            }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+        #cart {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    @{
+        ViewBag.Title = "View";
+        Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+    }
+
+</head>
+<body>
+
+    <header>
+        <img src="../Hinh/thiet-ke-logo-quan-an-1.jpg" alt="Logo">
+        <h1>Giỏ Hàng </h1>
+    </header>
+
+    <div class="container">
+        <h2>Sản Phẩm</h2>
+        <div>
+            <button onclick="addToCart('Sản Phẩm 1', 10.00)">
+                <img src="../Hinh/Mitron/mitron-botrung.jpg" alt="Sản Phẩm 1"> Thêm Sản Phẩm 1 ($10.00)
+            </button>
+            <button onclick="addToCart('Sản Phẩm 2', 15.00)">
+                <img src="../Hinh/Mitron/mitron-botrung.jpg" alt="Sản Phẩm 2"> Thêm Sản Phẩm 2 ($15.00)
+            </button>
+            <button onclick="addToCart('Sản Phẩm 3', 20.00)">
+                <img src="../Hinh/Mitron/mitron-botrung.jpg" alt="Sản Phẩm 3"> Thêm Sản Phẩm 3 ($20.00)
+            </button>
+        </div>
+
+        <div id="cart">
+            <h2>Giỏ Hàng của Bạn</h2>
+            <div id="cart-items"></div>
+            <div id="total"></div>
+            <button onclick="checkout()">Thanh Toán</button>
+        </div>
+    </div>
+
+    <script>
+        const cart = [];
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            renderCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                itemDiv.innerHTML = ${ item.name } - $${ item.price.toFixed(2) } <button onclick="removeFromCart(${index})">Xóa</button>;
+                cartItemsContainer.appendChild(itemDiv);
+            });
+
+            document.getElementById('total').innerText = Tổng cộng: $${ total.toFixed(2) };
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Giỏ hàng của bạn đang trống!");
+                return;
+            }
+            alert("Cảm ơn bạn đã mua hàng!");
+            cart.length = 0; // Xóa giỏ hàng
+            renderCart();
+        }
+    </script>
+
+    <footer>
+        <p>© 2024 Cửa Hàng. Tất cả quyền được bảo lưu.</p>
+        <p>Địa chỉ: 123 Đường ABC, Thành phố XYZ</p>
+    </footer>
+
+</body>
+</html>
+
